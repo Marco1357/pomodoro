@@ -5,21 +5,10 @@ const pauseBtn = document.querySelector("#pauseBtn");
 const resumeBtn = document.querySelector("#resumeBtn");
 const resetBtn = document.querySelector("#resetBtn");
 
-var select = document.querySelector("#times");
-
 let interval;
-let minutes = 10;
+let minutes = 0;
 let seconds = 60;
 let isPaused = false;
-("");
-//var text = 10;
-
-/*for (var i = 0; i < select.options.length; i++) {
-  if (select.options[i].text === text) {
-    select.selectedIndex = i;
-    break;
-  }
-}*/
 
 startBtn.addEventListener("click", startTimer);
 pauseBtn.addEventListener("click", pauseTimer);
@@ -27,15 +16,21 @@ resumeBtn.addEventListener("click", resumeTimer);
 resetBtn.addEventListener("click", resetTimer);
 
 function startTimer() {
+  const select = document.getElementById("times");
+  minutes = parseInt(select.value); // Atualiza minutos com o valor selecionado
+
   interval = setInterval(() => {
     if (!isPaused) {
       seconds -= 1;
     }
-    if (seconds === 00) {
-      minutes--;
-      seconds = 60;
+    if (seconds <= 0) {
+      if (minutes > 0) {
+        minutes--;
+        seconds = 59;
+      } else {
+        clearInterval(interval); // Para o cronômetro quando o tempo acabar
+      }
     }
-
     minutesE1.textContent = formatTime(minutes);
     secondsE1.textContent = formatTime(seconds);
   }, 1000);
@@ -58,8 +53,8 @@ function resumeTimer() {
 
 function resetTimer() {
   clearInterval(interval);
-  minutes = 10;
-  seconds = 60;
+  minutes = 0;
+  seconds = 0;
 
   minutesE1.textContent = "00";
   secondsE1.textContent = "00";
@@ -71,8 +66,4 @@ function resetTimer() {
 
 function formatTime(time) {
   return time < 10 ? `0${time}` : time;
-}
-
-function formatMinutes(time) {
-  return time < 100 ? `${time}`.padStart(2, "0") : time;
 }
