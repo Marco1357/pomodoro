@@ -29,6 +29,10 @@ function startTimer() {
         seconds = 59;
       } else {
         clearInterval(interval); // Para o cronômetro quando o tempo acabar
+        resetTimer();
+        //startBtn.style.display = "block"; // Torna o botão "Iniciar" visível
+        // pauseBtn.style.display = "none"; // Esconde o botão "Pausar"
+        // resumeBtn.style.display = "none"; // Esconde o botão "Continuar"
       }
     }
     minutesE1.textContent = formatTime(minutes);
